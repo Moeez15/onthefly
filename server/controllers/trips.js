@@ -16,6 +16,19 @@ const createTrip = async (req, res) => {
     }
 }
 
+const getTrips = async (req, res) => {
+    try {
+        const results = await pool.query(`SELECT * FROM trips ORDER BY id ASC`)
+        res.status(201).json(results.rows)
+    }
+    catch (error) {
+        res.status(409).josn( { error: error.message } )
+    }
+}
+
+
+
 export default {
-    createTrip
+    createTrip,
+    getTrips
 }
