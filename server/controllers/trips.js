@@ -26,9 +26,23 @@ const getTrips = async (req, res) => {
     }
 }
 
+const getTrip = async (req, res) => {
+    try {
+        const id = parseInt(req.params.id)
+        const result = await pool.query(`SELECT * FROM trips WHERE id = $1`, [id])
+        res.status(201).json(result.rows[0])
+    }
+    catch (error) {
+        res.status(409).json( { error: error.message } )
+    }
+}
+
+
+
 
 
 export default {
     createTrip,
-    getTrips
+    getTrips,
+    getTrip
 }
