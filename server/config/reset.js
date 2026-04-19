@@ -129,6 +129,7 @@ const createTripsTable = async () => {
 
 const seedTripsTable = async () => {
     await createTripsTable()
+    await pool.query('TRUNCATE trips RESTART IDENTITY CASCADE')
 
     tripsData.forEach((trip) => {
         const insertQuery = {

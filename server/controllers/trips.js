@@ -24,7 +24,7 @@ const getTrips = async (req, res) => {
         res.status(200).json(results.rows)
     }
     catch (error) {
-        res.status(409).josn( { error: error.message } )
+        res.status(409).json( { error: error.message } )
         console.log('🚫 Unable to GET all trips - Error:', error.message)
     }
 }
