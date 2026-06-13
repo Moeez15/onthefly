@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import '../css/CreateTrip.css'
 
-const CreateTrip = () => {
+const CreateTrip = ({ user, api_url }) => {
 
     const [trip, setTrip] = useState({
         id: 0,
@@ -11,7 +11,8 @@ const CreateTrip = () => {
         num_days: 0,
         start_date: '',
         end_date: '',
-        total_cost: 0.0
+        total_cost: 0.0,
+        username: user.username
     })
     
     const handleChange = (event) => {
@@ -36,7 +37,7 @@ const CreateTrip = () => {
             body: JSON.stringify(trip)
         }
 
-        fetch('/api/trips', options)
+        fetch(`${api_url}/api/trips`, options)
         window.location.href = '/'
     }
 
