@@ -11,3 +11,4 @@ router.patch('/:id', TripsController.updateTrip)
 
 
 export default router
+

@@ -12,4 +12,15 @@ const config = {
     }
 }
 
+/*
+The ssl configuration tells the PostgreSQL client to use an 
+encrypted (TLS/SSL) connection to the database server.
+
+Specifically, rejectUnauthorized: false disables certificate verification — 
+meaning the client will encrypt the connection but won't validate that the server's SSL certificate 
+is signed by a trusted authority. This is common when:
+Connecting to cloud-hosted databases (e.g., Heroku Postgres, Render, Railway) 
+that use self-signed certificates
+*/
+
 export const pool = new pg.Pool(config)

@@ -16,7 +16,6 @@ const createTripDestination = async (request, response) => {
 }
 
 const getTripsDestinations = async (request, response) => {
-
     try {
         const results = await pool.query('SELECT * FROM trips_destinations ORDER BY trip_id ASC');
         response.status(200).json(results.rows)
