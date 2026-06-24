@@ -57,7 +57,7 @@ const CreateDestination = ({ api_url }) => {
             return data
         }
 
-        addDestination().then(res => createTripDestination(res)).then(res => window.location = '/')
+        addDestination().then(res => createTripDestination(res)).then(res => window.location = `/trip/get/${trip_id}`)
     }
 
     return (

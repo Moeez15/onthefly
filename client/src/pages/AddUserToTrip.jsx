@@ -28,9 +28,9 @@ const AddUserToTrip = ({ api_url }) => {
             body: JSON.stringify(username)
         }
 
-        fetch(`${api_url}/api/users-trips/create/${trip_id}`, options)
+        await fetch(`${api_url}/api/users-trips/create/${trip_id}`, options)
 
-        window.location = '/'
+        window.location = `/trip/get/${trip_id}`
     }
 
     return (

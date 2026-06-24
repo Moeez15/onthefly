@@ -29,8 +29,8 @@ const CreateActivity = ({ api_url }) => {
             body: JSON.stringify(activity)
         }
 
-        fetch(`${api_url}/api/activities/${trip_id}`, options)
-        window.location.href = '/'
+        await fetch(`${api_url}/api/activities/${trip_id}`, options)
+        window.location.href = `/trip/get/${trip_id}`
     }
 
     return (
