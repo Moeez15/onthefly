@@ -157,9 +157,29 @@ const seedTripsTable = async () => {
     })
 }
 
+const createItinerariesTable = async () => {
+    const createItinerariesTableQuery = `
+        CREATE TABLE IF NOT EXISTS itineraries (
+            id serial PRIMARY KEY,
+            trip_id int NOT NULL UNIQUE,
+            content text NOT NULL,
+            created_at timestamp DEFAULT NOW(),
+            FOREIGN KEY(trip_id) REFERENCES trips(id) ON DELETE CASCADE
+        );
+    `
+
+    try {
+        const res = await pool.query(createItinerariesTableQuery)
+        console.log('🎉 itineraries table created successfully')
+    } catch (err) {
+        console.error('⚠️ error creating itineraries table', err)
+    }
+}
+
 seedTripsTable()
 createActivitiesTable()
 createDestinationsTable()
 createTripsDestinationsTable()
 createUsersTable()
 createTripsUsersTable()
+createItinerariesTable()
