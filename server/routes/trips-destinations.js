@@ -7,5 +7,6 @@ router.get('/', TripsDestinationsController.getTripsDestinations)
 router.get('/trips/:destination_id', TripsDestinationsController.getAllTrips)
 router.get('/destinations/:trip_id', TripsDestinationsController.getAllDestinations)
 router.post('/', TripsDestinationsController.createTripDestination)
+router.delete('/destination/:destination_id', TripsDestinationsController.deleteByDestination)
 
 export default router

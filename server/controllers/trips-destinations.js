@@ -53,9 +53,21 @@ const getAllDestinations  = async (request, response) => {
     }
 }
 
+const deleteByDestination = async (request, response) => {
+    try {
+        const destination_id = parseInt(request.params.destination_id)
+        const results = await pool.query('DELETE FROM trips_destinations WHERE destination_id = $1', [destination_id])
+        response.status(200).json(results.rows)
+    } catch (error) {
+        response.status(409).json({error: error.message})
+        console.log('Error:', error.message)
+    }
+}
+
 export default {
     createTripDestination,
     getTripsDestinations,
     getAllTrips,
-    getAllDestinations
+    getAllDestinations,
+    deleteByDestination
 }
