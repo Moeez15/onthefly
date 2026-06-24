@@ -86,6 +86,6 @@ Server runs on `http://localhost:3001`, client on `http://localhost:5173`.
 | `GITHUB_CLIENT_SECRET` | GitHub OAuth App client secret |
 | `GROQ_API_KEY` | Groq API key for AI features |
 
-To get GitHub OAuth credentials, create an OAuth App at [github.com/settings/developers](https://github.com/settings/developers) with callback URL `http://localhost:3001/auth/github/callback`.
+To get GitHub OAuth credentials, create an OAuth App at [github.com/settings/developers]
 
 To get a Groq API key, sign up at [console.groq.com](https://console.groq.com).
