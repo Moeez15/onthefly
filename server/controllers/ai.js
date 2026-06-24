@@ -11,7 +11,8 @@ const generateItinerary = async (req, res) => {
             ? destinations.map(d => d.destination).join(', ')
             : 'not specified'
 
-        const prompt = `You are a travel planning expert. Generate a detailed day-by-day itinerary for the following trip:
+        const prompt =
+`You are a travel planning expert. Generate a detailed day-by-day itinerary for the following trip:
 
 Trip: ${title}
 Description: ${description}
@@ -95,7 +96,8 @@ const smartSearch = async (req, res) => {
             destinations: tripDestMap[t.id] || []
         }))
 
-        const prompt = `You are a travel search assistant. A user is searching for trips with this query:
+        const prompt =
+`You are a travel search assistant. A user is searching for trips with this query:
 
 "${query}"
 
@@ -146,7 +148,8 @@ const suggestDestinationsActivities = async (req, res) => {
     try {
         const { trip_id, title, description, num_days } = req.body
 
-        const prompt = `You are a travel planning expert. Based on this trip, suggest destinations and activities:
+        const prompt =
+`You are a travel planning expert. Based on this trip, suggest destinations and activities:
 
 Trip: ${title}
 Description: ${description}
@@ -223,4 +226,10 @@ const saveAiSuggestions = async (req, res) => {
     }
 }
 
-export default { generateItinerary, getItinerary, smartSearch, suggestDestinationsActivities, saveAiSuggestions }
+export default {
+    generateItinerary,
+    getItinerary,
+    smartSearch,
+    suggestDestinationsActivities,
+    saveAiSuggestions
+}
