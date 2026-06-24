@@ -9,6 +9,7 @@ import destinationRoutes from './routes/destinations.js'
 import tripDestinationRoutes from './routes/trips-destinations.js'
 import authRoutes from './routes/auth.js'
 import userTripRoutes from './routes/users-trips.js'
+import aiRoutes from './routes/ai.js'
 
 const app = express()
 
@@ -44,7 +45,8 @@ app.use('/api/activities/', activityRoutes)
 app.use('/api/destinations/', destinationRoutes)
 app.use('/api/trips-destinations/', tripDestinationRoutes)
 app.use('/auth', authRoutes)
-app.use('/users-trips', userTripRoutes)
+app.use('/api/users-trips', userTripRoutes)
+app.use('/api/ai', aiRoutes)
 
 const PORT = process.env.PORT || 3001
 

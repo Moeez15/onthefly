@@ -9,6 +9,10 @@ import TripDetails from './pages/TripDetails'
 import CreateActivity from './pages/CreateActivity'
 import AddToTrip from './pages/AddToTrip'
 import AddUserToTrip from './pages/AddUserToTrip'
+import EditDestination from './pages/EditDestination'
+import MyTrips from './pages/MyTrips'
+import GenerateItinerary from './pages/GenerateItinerary'
+import SmartSearch from './pages/SmartSearch'
 import Login from './pages/Login'
 import Avatar from './components/Avatar'
 import './App.css'
@@ -95,6 +99,26 @@ const App = () => {
       element: user && user.id ?
           <AddUserToTrip api_url={API_URL}/> : <Login api_url={API_URL} />
     },
+    {
+      path: '/destination/edit/:id',
+      element: user && user.id ?
+          <EditDestination user={user} data={destinations} api_url={API_URL} /> : <Login api_url={API_URL} />
+    },
+    {
+      path: '/my-trips',
+      element: user && user.id ?
+          <MyTrips user={user} api_url={API_URL} /> : <Login api_url={API_URL} />
+    },
+    {
+      path: '/trip/itinerary/:id',
+      element: user && user.id ?
+          <GenerateItinerary user={user} data={trips} api_url={API_URL} /> : <Login api_url={API_URL} />
+    },
+    {
+      path: '/search',
+      element: user && user.id ?
+          <SmartSearch user={user} api_url={API_URL} /> : <Login api_url={API_URL} />
+    },
 ])
 
   return ( 
@@ -104,8 +128,10 @@ const App = () => {
               <div className='header'>
                   <h1>On The Fly ✈️</h1>
                   <Avatar className='avatar' user={user} />
+                  <Link to='/search'><button className='headerBtn'>Smart Search</button></Link>
                   <Link to='/'><button className='headerBtn'>Explore Trips</button></Link>
                   <Link to='/destinations'><button className='headerBtn'>Explore Destinations</button></Link>
+                  <Link to='/my-trips'><button className='headerBtn'>My Trips</button></Link>
                   <Link to='/trip/new'><button className='headerBtn'> + Add Trip </button></Link>
                   <button className='headerBtn' onClick={logout}>Logout</button>
               </div>
