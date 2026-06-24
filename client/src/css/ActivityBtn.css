@@ -1,11 +1,46 @@
-.activityBtn {
-    text-align: center;
-    padding:5;
+.activityWrapper {
+    display: inline-block;
     margin-right: 10px;
-    width: 170px;
+    margin-bottom: 8px;
+}
+
+.activityBtn {
+    position: relative;
+    text-align: center;
+    padding: 6px 10px;
+    width: 130px;
+    background-color: white;
+    border: 2px solid rgba(38, 163, 217, 0.5);
+    border-radius: 8px;
+    color: #333;
+    font-size: 12px;
+    line-height: 1.3;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
 }
 
 .activityBtn:hover {
-    background: rgba(21, 5, 5, 0.184);
+    background-color: rgba(38, 163, 217, 0.1);
+    border-color: rgba(38, 163, 217, 0.8);
+}
 
+.deleteActivityBtn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: none;
+    background-color: #870404;
+    color: white;
+    font-size: 9px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 16px;
+    text-align: center;
+}
+
+.deleteActivityBtn:hover {
+    background-color: #a50505;
 }
