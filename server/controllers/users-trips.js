@@ -37,6 +37,7 @@ pool.query(createUsersTripsTableQuery, (error, res) => {
     console.log('✅ users_trips table created successfully!')
 })
 
+
 export const createTripUser = async (req, res) => {
     try {
         const trip_id = parseInt(req.params.trip_id)
@@ -67,6 +68,17 @@ export const getTripUsers = async (req, res) => {
     } catch (error) {
         res.status(409).json( { error: error.message } )
         console.log('🚫 unable to GET all users (travelers) - Error:', error.message)
+    }
+}
+
+export const removeTripUser = async (req, res) => {
+    try {
+        const id = parseInt(req.params.id)
+        const results = await pool.query('DELETE FROM users_trips WHERE id = $1', [id])
+        res.status(200).json(results.rows)
+    } catch (error) {
+        res.status(409).json( { error: error.message } )
+        console.log('🚫 unable to DELETE user from trip - Error:', error.message)
     }
 }
 
