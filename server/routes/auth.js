@@ -37,8 +37,8 @@ router.get(
 router.get(
     '/github/callback',
     passport.authenticate('github', {
-        successRedirect: 'http://localhost:5173/',
-        failureRedirect: '/auth/login/failed',
+        successRedirect: 'https://client-zlcr.onrender.com',
+        failureRedirect: 'https://client-zlcr.onrender.com/destinations',
     })
 )
 
