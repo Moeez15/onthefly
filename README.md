@@ -1,5 +1,7 @@
 # On The Fly ✈️
 
+**[Live Demo](https://client-zlcr.onrender.com)**
+
 A collaborative trip planning app where groups can organize travel together — plan trips, curate destinations, vote on activities, invite friends, and use AI to generate itineraries, search trips, and auto-suggest destinations and activities.
 
 ## Why I Built This
