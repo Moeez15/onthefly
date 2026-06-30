@@ -128,10 +128,9 @@ const createTripsTable = async () => {
 }
 
 const seedTripsTable = async () => {
-    await createTripsTable()
     await pool.query('TRUNCATE trips RESTART IDENTITY CASCADE')
 
-    tripsData.forEach((trip) => {
+    for (const trip of tripsData) {
         const insertQuery = {
             text: 'INSERT INTO trips (title, description, img_url, num_days, start_date, end_date, total_cost) VALUES ($1, $2, $3, $4, $5, $6, $7)'
         }
@@ -146,15 +145,13 @@ const seedTripsTable = async () => {
             trip.total_cost
         ]
 
-        pool.query(insertQuery, values, (err, res) => {
-            if (err) {
-                console.error('⚠️ error inserting trip', err)
-                return
-            }
-
+        try {
+            await pool.query(insertQuery, values)
             console.log(`✅ ${trip.title} added successfully`)
-        })
-    })
+        } catch (err) {
+            console.error('⚠️ error inserting trip', err)
+        }
+    }
 }
 
 const createItinerariesTable = async () => {
@@ -176,10 +173,16 @@ const createItinerariesTable = async () => {
     }
 }
 
-seedTripsTable()
-createActivitiesTable()
-createDestinationsTable()
-createTripsDestinationsTable()
-createUsersTable()
-createTripsUsersTable()
-createItinerariesTable()
+const reset = async () => {
+    await createTripsTable()
+    await seedTripsTable()
+    await createActivitiesTable()
+    await createDestinationsTable()
+    await createTripsDestinationsTable()
+    await createUsersTable()
+    await createTripsUsersTable()
+    await createItinerariesTable()
+    await pool.end()
+}
+
+reset()
