@@ -8,22 +8,73 @@ const currentPath = fileURLToPath(import.meta.url)
 const tripsFile = fs.readFileSync(path.join(dirname(currentPath), '../config/data/data.json'))
 const tripsData = JSON.parse(tripsFile)
 
-const createActivitiesTable = async () => {
-    const createActivitiesTableQuery = `
-        CREATE TABLE IF NOT EXISTS activities (
+const dropAllTables = async () => {
+  const dropTablesQuery = `
+      DROP TABLE IF EXISTS itineraries;
+      DROP TABLE IF EXISTS trips_users;
+      DROP TABLE IF EXISTS trips_destinations;
+      DROP TABLE IF EXISTS activities;
+      DROP TABLE IF EXISTS users;
+      DROP TABLE IF EXISTS destinations;
+      DROP TABLE IF EXISTS trips;
+  `
+
+  try {
+    const res = await pool.query(dropTablesQuery)
+    console.log('🧹 all tables dropped successfully')
+  }
+
+  catch (err) {
+    console.error('⚠️ error dropping tables', err)
+  }
+}
+
+const createTripsTable = async () => {
+    const createTripsTableQuery = `
+        CREATE TABLE IF NOT EXISTS trips (
             id serial PRIMARY KEY,
-            trip_id int NOT NULL,
-            activity varchar(100) NOT NULL,
-            num_votes integer DEFAULT 0,
-            FOREIGN KEY(trip_id) REFERENCES trips(id)
+            title varchar(100) NOT NULL,
+            description varchar(500) NOT NULL,
+            img_url text NOT NULL,
+            num_days integer NOT NULL,
+            start_date date NOT NULL,
+            end_date date NOT NULL,
+            total_cost money NOT NULL
         );
     `
 
     try {
-        const res = await pool.query(createActivitiesTableQuery)
-        console.log('🎉 activities table created successfully')
+        const res = await pool.query(createTripsTableQuery)
+        console.log('🎉 trips table created successfully')
     } catch (err) {
-        console.error('⚠️ error creating activities table', err)
+        console.error('⚠️ error creating trips table', err)
+    }
+}
+
+const seedTripsTable = async () => {
+    await createTripsTable();
+
+    for (const trip of tripsData) {
+        const insertQuery = {
+            text: 'INSERT INTO trips (title, description, img_url, num_days, start_date, end_date, total_cost) VALUES ($1, $2, $3, $4, $5, $6, $7)'
+        }
+
+        const values = [
+            trip.title,
+            trip.description,
+            trip.img_url,
+            trip.num_days,
+            trip.start_date,
+            trip.end_date,
+            trip.total_cost
+        ]
+
+        try {
+            await pool.query(insertQuery, values)
+            console.log(`✅ ${trip.title} added successfully`)
+        } catch (err) {
+            console.error('⚠️ error inserting trip', err)
+        }
     }
 }
 
@@ -47,6 +98,26 @@ const createDestinationsTable = async () => {
         console.error('⚠️ error creating destinations table', err)
     }
 }
+
+const createActivitiesTable = async () => {
+    const createActivitiesTableQuery = `
+        CREATE TABLE IF NOT EXISTS activities (
+            id serial PRIMARY KEY,
+            trip_id int NOT NULL,
+            activity varchar(100) NOT NULL,
+            num_votes integer DEFAULT 0,
+            FOREIGN KEY(trip_id) REFERENCES trips(id)
+        );
+    `
+
+    try {
+        const res = await pool.query(createActivitiesTableQuery)
+        console.log('🎉 activities table created successfully')
+    } catch (err) {
+        console.error('⚠️ error creating activities table', err)
+    }
+}
+
 
 const createTripsDestinationsTable = async () => {
     const createTripsDestinationsTableQuery = `
@@ -105,55 +176,6 @@ const createTripsUsersTable = async () => {
     }
 }
 
-const createTripsTable = async () => {
-    const createTripsTableQuery = `
-        CREATE TABLE IF NOT EXISTS trips (
-            id serial PRIMARY KEY,
-            title varchar(100) NOT NULL,
-            description varchar(500) NOT NULL,
-            img_url text NOT NULL,
-            num_days integer NOT NULL,
-            start_date date NOT NULL,
-            end_date date NOT NULL,
-            total_cost money NOT NULL
-        );
-    `
-
-    try {
-        const res = await pool.query(createTripsTableQuery)
-        console.log('🎉 trips table created successfully')
-    } catch (err) {
-        console.error('⚠️ error creating trips table', err)
-    }
-}
-
-const seedTripsTable = async () => {
-    await pool.query('TRUNCATE trips RESTART IDENTITY CASCADE')
-
-    for (const trip of tripsData) {
-        const insertQuery = {
-            text: 'INSERT INTO trips (title, description, img_url, num_days, start_date, end_date, total_cost) VALUES ($1, $2, $3, $4, $5, $6, $7)'
-        }
-
-        const values = [
-            trip.title,
-            trip.description,
-            trip.img_url,
-            trip.num_days,
-            trip.start_date,
-            trip.end_date,
-            trip.total_cost
-        ]
-
-        try {
-            await pool.query(insertQuery, values)
-            console.log(`✅ ${trip.title} added successfully`)
-        } catch (err) {
-            console.error('⚠️ error inserting trip', err)
-        }
-    }
-}
-
 const createItinerariesTable = async () => {
     const createItinerariesTableQuery = `
         CREATE TABLE IF NOT EXISTS itineraries (
@@ -173,16 +195,15 @@ const createItinerariesTable = async () => {
     }
 }
 
-const reset = async () => {
-    await createTripsTable()
+const resetDatabase = async () => {
+    await dropAllTables()
     await seedTripsTable()
-    await createActivitiesTable()
     await createDestinationsTable()
+    await createActivitiesTable()
     await createTripsDestinationsTable()
     await createUsersTable()
     await createTripsUsersTable()
     await createItinerariesTable()
-    await pool.end()
 }
 
-reset()
+resetDatabase()

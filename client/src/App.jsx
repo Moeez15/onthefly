@@ -18,7 +18,7 @@ import Avatar from './components/Avatar'
 import './App.css'
 
 const App = () => {
-  const API_URL = import.meta.env.PROD ? 'https://server-srp2.onrender.com' : '/api'
+  const API_URL = import.meta.env.PROD ? import.meta.env.VITE_API_URL : '/api'
 
   const [trips, setTrips] = useState([])
   const [destinations, setDestinations] = useState([])

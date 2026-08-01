@@ -16,7 +16,7 @@ const app = express()
 app.set('trust proxy', 1)
 
 app.use(session({
-    secret: 'codepath',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -26,7 +26,7 @@ app.use(session({
 }))
 app.use(express.json())
 app.use(cors({
-    origin: 'https://client-zlcr.onrender.com',
+    origin: process.env.CLIENT_URL,
     methods: 'GET,POST,PUT,DELETE,PATCH',
     credentials: true
 }))
