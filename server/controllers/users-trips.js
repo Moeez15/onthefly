@@ -1,43 +1,5 @@
 import { pool } from '../config/database.js'
 
-const createUsersTableQuery = `
-    CREATE TABLE IF NOT EXISTS users (
-        id serial PRIMARY KEY,
-        githubid int NOT NULL,
-        username varchar(200) NOT NULL,
-        avatarurl varchar(500),
-        accesstoken varchar(500) NOT NULL
-    );
-`
-
-const createUsersTripsTableQuery = `
-    CREATE TABLE IF NOT EXISTS users_trips (
-        id serial PRIMARY KEY,
-        trip_id int NOT NULL,
-        username text NOT NULL,
-        FOREIGN KEY (trip_id) REFERENCES trips(id)
-    );
-`
-
-pool.query(createUsersTableQuery, (error, res) => {
-    if (error) {
-        console.log(error)
-        return
-    }
-
-    console.log('✅ users table created successfully!')
-})
-
-pool.query(createUsersTripsTableQuery, (error, res) => {
-    if (error) {
-        console.log(error)
-        return
-    }
-
-    console.log('✅ users_trips table created successfully!')
-})
-
-
 export const createTripUser = async (req, res) => {
     try {
         const trip_id = parseInt(req.params.trip_id)

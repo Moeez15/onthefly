@@ -11,7 +11,7 @@ const tripsData = JSON.parse(tripsFile)
 const dropAllTables = async () => {
   const dropTablesQuery = `
       DROP TABLE IF EXISTS itineraries;
-      DROP TABLE IF EXISTS trips_users;
+      DROP TABLE IF EXISTS users_trips;
       DROP TABLE IF EXISTS trips_destinations;
       DROP TABLE IF EXISTS activities;
       DROP TABLE IF EXISTS users;
@@ -157,22 +157,21 @@ const createUsersTable = async () => {
     }
 }
 
-const createTripsUsersTable = async () => {
-    const createTripsUsersTableQuery = `
-        CREATE TABLE IF NOT EXISTS trips_users (
+const createUsersTripsTable = async () => {
+    const createUsersTripsTableQuery = `
+        CREATE TABLE IF NOT EXISTS users_trips (
+            id serial PRIMARY KEY,
             trip_id int NOT NULL,
-            user_id int NOT NULL,
-            PRIMARY KEY (trip_id, user_id),
-            FOREIGN KEY (trip_id) REFERENCES trips(id) ON UPDATE CASCADE,
-            FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+            username text NOT NULL,
+            FOREIGN KEY (trip_id) REFERENCES trips(id)
         );
     `
 
     try {
-        const res = await pool.query(createTripsUsersTableQuery)
-        console.log('🎉 trips_users table created successfully')
+        const res = await pool.query(createUsersTripsTableQuery)
+        console.log('🎉 users_trips table created successfully')
     } catch (err) {
-        console.error('⚠️ error creating trips_users table', err)
+        console.error('⚠️ error creating users_trips table', err)
     }
 }
 
@@ -202,7 +201,7 @@ const resetDatabase = async () => {
     await createActivitiesTable()
     await createTripsDestinationsTable()
     await createUsersTable()
-    await createTripsUsersTable()
+    await createUsersTripsTable()
     await createItinerariesTable()
 }
 
